@@ -1,0 +1,127 @@
+##!/usr/bin/python
+# -*- coding: utf-8 -*-
+# @Time    : 2019/8/3 10:13
+# @Author  : jingwei
+# @FileName: quickTreatingString.py
+# @Software: PyCharm
+# @Blog    ：https://www.cnblogs.com/Jewish/
+import re
+import os
+from PyQt5.QtWidgets import QApplication,QWidget,QTextEdit,QVBoxLayout,QPushButton
+from PyQt5.QtGui import QIcon
+import sys
+import random
+
+#打开待处理的文件
+def openTxt():
+    try:
+        waitForTreated = open('treatString.txt', 'rt')
+        return waitForTreated
+    except Exception as e:
+        print(str(e) + "\n文件打开失败")
+        return 0
+
+#剔除剩余的html代码(不剔除图片标签）
+def deleteHtmlCode(htmlContent):
+    imageReg = r'<img.+?>'
+    imageReg = re.compile(imageReg)
+    imageCrash = imageReg.findall(htmlContent)
+    for num in range(len(imageCrash)):
+        htmlContent = imageReg.sub("{0["+str(num)+"]}", htmlContent,1)
+    reg = r'</?(.+?)>'
+    reObject = re.compile(reg)
+    revisedContent = reObject.sub("", htmlContent)
+    space=r'&nbsp'
+    revisedContent=re.sub(space,"",revisedContent)
+    revisedContent=revisedContent.format(imageCrash)
+    return revisedContent
+
+#从文件中读取内容
+def readAllData(fileObject):
+    content = fileObject.read()
+    fileObject.close()
+    return content
+
+#将结果写入新文件
+def writeAnswerInAnotherTxt(result):
+    try:
+        results = open('results.txt', 'wt')
+        results.write(result)
+        results.close()
+    except Exception as e:
+        print(str(e) + "\n文件写入失败")
+        return 0
+
+#删除无效空行
+def deleteNull():
+    try:
+        haveNullTxt = open('results.txt', 'rt')
+        lines = haveNullTxt.readlines()
+        n = len(lines)
+        label = []
+        for i in range(n):
+            if lines[i] == '\n':
+                label.append(i)
+        reversedLabel = label[::-1]
+        for elem in reversedLabel:
+            lines.pop(elem)
+        strings = "".join(lines)
+        try:
+            results = open('results.txt', 'wt')
+            results.write(strings)
+            results.close()
+        except Exception as e:
+            print(str(e) + "\n文件写入失败")
+            return 0
+    except Exception as e:
+        print("文件不存在\n")
+        print(e)
+        return 0
+
+#主函数
+class TextEditDemo(QWidget):
+    def __init__(self,parent=None):
+        super(TextEditDemo, self).__init__(parent)
+        self.setWindowTitle('clear unnecessary html code')
+        if(random.randint(0,1)):
+            iconName="icon1.png"
+        else:
+            iconName="icon2.png"
+        self.setWindowIcon(QIcon(iconName))
+        #定义窗口的初始大小
+        self.resize(500,750)
+        #创建多行文本框
+        self.textEdit=QTextEdit()
+        #创建按钮
+        self.btnPress=QPushButton('Start Treating')
+        #实例化垂直布局
+        layout=QVBoxLayout()
+        #相关控件添加到垂直布局中
+        layout.addWidget(self.textEdit)
+        layout.addWidget(self.btnPress)
+        #设置布局
+        self.setLayout(layout)
+        #将按钮的点击信号与相关的槽函数进行绑定，点击即触发
+        self.btnPress.clicked.connect(self.btnPress_clicked)
+
+    def btnPress_clicked(self):
+        writeAnswerInAnotherTxt(self.getContent())
+        if (deleteNull() != 0):
+            print("translated successfully!\n请打开本目录中resuls.txt文件进行复制！\n谢谢！")
+            os.system("results.txt")
+
+    def getContent(self):
+        needToBeTreated=self.textEdit.toPlainText()
+        done=deleteHtmlCode(needToBeTreated)
+        return done
+
+
+if __name__ == '__main__':
+    app=QApplication(sys.argv)
+    win=TextEditDemo()
+    win.show()
+    sys.exit(app.exec_())
+
+
+
+

@@ -1,0 +1,1 @@
+pyinstaller -F -w quickTreatingString.py --add-data "D:\Phython Workplace\Lib\site-packages\PyQt5\Qt\bin";PyQt5\Qt\bin

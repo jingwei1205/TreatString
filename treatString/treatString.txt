@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>安桌白盒测试</title>
+</head>&nbsp
+<body>
+<h1>6月28&nbsp日教程</h1>
+<p>1.安桌生<h2>命周期</h2>&nbsp：OnCreate->OnStart->OnResume->OnPause->OnStop->OnDestroy</p>
+<p>2.android instrumentationm</p>
+<p>3.setUp在每个测试前执行一次 测试之前准备一个全新环境</p>
+<p>4.</p><img src="pulpit.jpg" alt="Pulpit rock" width="304" height="2281">
+<p>前提条件：&nbsp控件获得焦点。requestFocus()</P>
+<P>获得焦点：*.requestFocus()</p>
+<img src="pulpit.jpg" alt="Pulpit rock" width="304" height="2282">
+<p>sendKeys(KeyEvent.KEYCODE_M);//英文字母m</p>
+<p>sendKeys(KeyEvent.SHIFT_LEFT);	
+sendKeys(KeyEvent.KEYCODE_M);//大写英文字母m</p>
+<p>sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);//中间键</p>
+<p>sendKeys(KeyEvent.KEYCODE_DPAD_DOWN);//方向键</p>
+<p><h3>sendKeys(KeyEvent.KEYCODE_ALT_LEFT);sendKeys(KeyEvent.KEYCODE_1);//感叹号需要转义</p></h3>
+<p>5.</p>
+<section><img src="pulpit.jpg" alt="Pulpit rock" width="304" height="2283"></section>
+</body>
+</html>
+
